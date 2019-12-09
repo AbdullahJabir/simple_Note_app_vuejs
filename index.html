@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue test</title>
+	<script src="vue.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+<body>
+	<div id="note">
+		<div class="container mt-4">
+			<center><h3>My Notes</h3></center>
+
+			<div class="card card-body" v-if="errorText.length>0">
+				<div class="alert alert-danger">
+					{{ errorText }}
+				</div>
+			</div>
+
+			<div class="card card-body" v-if="successText.length>0">
+				<div class="alert alert-success">
+					{{ successText }}
+				</div>
+			</div>
+
+			<div class="card card-body m-2">
+				<div class="row">
+					<div class="col-sm-3">
+						<p>
+							Note Title - {{ title }}
+						</p>
+						<input type="text" v-model="title" class="form-control">
+					</div>
+					<div class="col-sm-6">
+						<p class="text-primary">
+							Note Description - {{ description }}
+						</p>
+						<textarea v-model="description"  cols="30" rows="5" class="form-control"></textarea>
+					</div>
+					<div class="col-sm-3">
+						<button class="btn btn-success" @click="ADDNOTE">
+							Add Note
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="card card body mt-3 p-3" v-for="(note, index) in notes">
+				<p>
+					<button @click="deleteNote(index)" class="btn btn-danger mb-2">X</button>
+				</p>
+				<h3>{{ note.title }}</h3>
+				<div class="text-primary">
+					{{ note.description }}
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<script>
+		var note = new Vue({
+			el: '#note',
+			data: {
+				title: '',
+				description: '',
+				notes: [],
+				errorText: '',
+				successText: ''
+			},
+
+			mounted() {
+				this.notes.push(
+					{
+						'title': 'First Note',
+						'description': 'First Note Description'
+					},
+					{
+						'title': 'Second Note',
+						'description': 'Second Note Description'
+					},
+				)
+			},
+			methods: {
+
+				ADDNOTE() {
+					let title = this.title;
+					let description = this.description;
+					if (title.length > 0 && description.length > 0) {
+						
+						let singleNote = {
+							'title': title,
+							'description': description
+						}
+						this.notes.push(singleNote);
+						this.title = "";
+						this.description = "";
+						this.successText = "Note is added";
+						this.errorText = "";
+
+					}else {
+						this.successText = "";
+						this.errorText = "Please fill the fields";
+						return;
+					}
+				},
+				deleteNote(noteIndex) {
+					this.notes.splice(noteIndex, 1);
+					this.successText = "Note Deleted";
+					this.errorText = "";
+				}
+
+			}
+
+			
+		});
+	</script>
+</body>
+</html>
