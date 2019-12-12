@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		ul{
+			list-style: none;
+		}
+		li{
+			display: inline;
+		}
+		.active{
+			background:#0B78A0;
+			color:#FFFFFF ;
+			padding: 5px;
+		}
+	</style>
+</head>
+<body>
+	<div id="root">
+		<H1>{{name | upper}}</H1>
+		<H1>{{profession | upper}}</H1>
+		<br><br>
+		
+	</div>
+
+	<script type="text/javascript" src="vue.js"></script>
+
+	<script type="text/javascript">
+		var app= new Vue({
+			el:"#root",
+			data:{
+				name:"Gazi",
+				profession:"Software Engineer"
+				
+			},
+			
+			filters:{
+				upper:function(s){
+					return s.toUpperCase();
+				}
+			}
+		}
+
+			);
+	</script>
+</body>
+</html>
